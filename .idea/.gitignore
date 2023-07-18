@@ -242,4 +242,7 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/java,react,macos,windows,intellij,gradle
+
+# 추가
 .idea
+beam-projector/build/tmp/compileJava/previous-compilation-data.bin
