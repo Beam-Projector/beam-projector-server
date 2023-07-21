@@ -1,6 +1,11 @@
 spring:
-  application:
-    name: my-application
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   config:
     import: classpath:mysql.yml
+
+springdoc:
+  swagger-ui:
+    path: /api-doc.html
