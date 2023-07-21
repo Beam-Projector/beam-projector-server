@@ -18,4 +18,5 @@ public class HeartId implements Serializable{
     @Column(name = "member_num")
     private Long memberNum;
 
+
 }
