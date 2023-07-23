@@ -63,7 +63,7 @@ public class Member {
 	private String profileImageUrl;
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-	private Set<Heart> user = new HashSet<>();
+	private Set<Heart> member = new HashSet<>();
 
 	public static Member from(MemberDto.SignupRequest request,
 		String encodedPassword) {

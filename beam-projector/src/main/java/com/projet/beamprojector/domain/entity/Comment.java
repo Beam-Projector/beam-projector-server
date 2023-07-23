@@ -19,13 +19,13 @@ public class Comment {
     @Column(name = "comment_num", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "member_num", nullable = false)
-    private Long memberNum;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_num", referencedColumnName = "member_num", nullable = false)
+    private Member member;
 
-    @NotNull
-    @Column(name = "board_num", nullable = false)
-    private Long boardNum;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_num", referencedColumnName = "board_num", nullable = false)
+    private Board board;
 
     @Size(max = 45)
     @NotNull
