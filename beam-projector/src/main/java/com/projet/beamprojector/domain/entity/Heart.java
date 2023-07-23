@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString
 @Builder
 @Entity
-@Table(name = "heart")
+@Table(name = "heart", schema = "beam_projector")
 public class Heart {
 
     @EmbeddedId
@@ -22,12 +22,12 @@ public class Heart {
     // MapsId : 임베디드아이디 클래스에있는 멤버변수 가져옴
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("memberNum")
-    @JoinColumn(name = "member_num")
+    @JoinColumn(name = "member_num", referencedColumnName = "member_num", nullable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("boardNum")
-    @JoinColumn(name = "board_num")
+    @JoinColumn(name = "board_num", referencedColumnName = "board_num", nullable = false)
     private Board board;
 
 }

@@ -20,9 +20,9 @@ public class Board {
     @Column(name = "board_num", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "member_num", nullable = false)
-    private Long memberNum;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_num", referencedColumnName = "member_num", nullable = false)
+    private Member member;
 
     @Size(max = 45)
     @NotNull
@@ -52,6 +52,6 @@ public class Board {
     private Long categoryName;
 
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
-    private Set<Heart> user = new HashSet<>();
+    private Set<Heart> board = new HashSet<>();
 
 }

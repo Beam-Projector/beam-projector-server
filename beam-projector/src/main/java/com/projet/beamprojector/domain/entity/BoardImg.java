@@ -1,5 +1,8 @@
 package com.projet.beamprojector.domain.entity;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,9 +22,9 @@ public class BoardImg {
     @Column(name = "image_num", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "board_num", nullable = false)
-    private Long boardNum;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_num", referencedColumnName = "board_num", nullable = false)
+    private Board board;
 
     @Size(max = 45)
     @Column(name = "board_image_url", length = 45)
