@@ -43,9 +43,8 @@ public class Member {
 	@Column(name = "email", nullable = false, length = 45)
 	private String email;
 
-	@Size(max = 45)
 	@NotNull
-	@Column(name = "password", nullable = false, length = 45)
+	@Column(name = "password", nullable = false)
 	private String password;
 
 	@Size(max = 45)
