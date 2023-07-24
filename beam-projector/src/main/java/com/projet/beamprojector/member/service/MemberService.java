@@ -1,13 +1,16 @@
 package com.projet.beamprojector.member.service;
 
 import com.projet.beamprojector.domain.entity.Member;
+import com.projet.beamprojector.dto.member.MemberDto.LoginRequest;
 import com.projet.beamprojector.dto.member.MemberDto.SignupRequest;
 import com.projet.beamprojector.member.exception.MemberException;
 import com.projet.beamprojector.member.exception.type.MemberErrorCode;
 import com.projet.beamprojector.member.repository.MemberRepository;
+import com.projet.beamprojector.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -16,7 +19,11 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
-	private final PasswordEncoder passwordEncoder;
+	private final BCryptPasswordEncoder passwordEncoder;
+
+	@Value("${jwt.token.secret}")
+	private String key;
+	private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;
 
 	public Member registerMember(SignupRequest request) {
 		if (memberRepository.existsByEmail(request.getEmail())) {
@@ -37,5 +44,22 @@ public class MemberService {
 		memberRepository.save(member);
 
 		return member;
+	}
+
+	public String login(LoginRequest request) {
+
+		Member member = memberRepository.findByMemberId(request.getMemberId());
+		if (member == null) {
+			throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
+		}
+		if (!passwordEncoder.matches(request.getPassword(),
+			member.getPassword())) {
+			throw new MemberException(MemberErrorCode.PASSWORD_MISMATCH);
+		}
+
+		log.info("member Name : {}", member.getName());
+
+		return JwtUtil.createToken(
+			member.getName(), key, ACCESS_TOKEN_EXPIRE_TIME);
 	}
 }

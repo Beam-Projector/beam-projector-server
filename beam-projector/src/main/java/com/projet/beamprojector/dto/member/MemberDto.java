@@ -46,5 +46,23 @@ public class MemberDto {
 		private String profileImageUrl;
 	}
 
+	@ToString
+	@Builder
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class LoginRequest {
+
+		@NotBlank(message = "아이디를 입력해 주세요.")
+		@Schema(description = "아이디")
+		private String memberId;
+
+		@Pattern(regexp = "^(?=.*[a-zA-Z])[0-9a-zA-Z]{4,60}$",
+			message = "아이디: 알파벳, 숫자를 조합한 4자리~60자리 문자열을 입력해 주세요.")
+		@NotBlank(message = "비밀번호 값을 입력해 주세요.")
+		@Schema(description = "비밀번호")
+		private String password;
+	}
+
 
 }
