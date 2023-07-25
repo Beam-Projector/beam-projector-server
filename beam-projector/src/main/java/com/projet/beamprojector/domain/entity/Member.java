@@ -67,7 +67,7 @@ public class Member implements UserDetails {
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private Set<Heart> member = new HashSet<>();
 
-	public static Member from(MemberDto.SignupRequest request,
+	public static Member toEntity(MemberDto.SignupRequest request,
 		String encodedPassword) {
 		Member member = new Member();
 		member.memberId = request.getMemberId();
