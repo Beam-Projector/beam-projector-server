@@ -1,5 +1,6 @@
 package com.projet.beamprojector.dto.member;
 
+import com.projet.beamprojector.domain.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -62,6 +63,30 @@ public class MemberDto {
 		@NotBlank(message = "비밀번호 값을 입력해 주세요.")
 		@Schema(description = "비밀번호")
 		private String password;
+	}
+
+	@ToString
+	@Builder
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class GetMemberResponse {
+
+		private String memberId;
+		private String email;
+		private String name;
+		private String nickName;
+		private String profileImageUrl;
+
+		public static GetMemberResponse toGetMemberResponse(Member member) {
+			return GetMemberResponse.builder()
+				.memberId(member.getMemberId())
+				.email(member.getEmail())
+				.name(member.getName())
+				.nickName(member.getNickName())
+				.profileImageUrl(member.getProfileImageUrl())
+				.build();
+		}
 	}
 
 

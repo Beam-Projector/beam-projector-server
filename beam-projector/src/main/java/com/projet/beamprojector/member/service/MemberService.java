@@ -1,6 +1,7 @@
 package com.projet.beamprojector.member.service;
 
 import com.projet.beamprojector.domain.entity.Member;
+import com.projet.beamprojector.dto.member.MemberDto.GetMemberResponse;
 import com.projet.beamprojector.dto.member.MemberDto.LoginRequest;
 import com.projet.beamprojector.dto.member.MemberDto.SignupRequest;
 import com.projet.beamprojector.member.exception.MemberException;
@@ -61,5 +62,13 @@ public class MemberService {
 
 		return JwtUtil.createToken(
 			member.getMemberId(), key, ACCESS_TOKEN_EXPIRE_TIME);
+	}
+
+	public GetMemberResponse getMember(String memberId) {
+		Member member = memberRepository.findByMemberId(memberId);
+		if (member == null) {
+			throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
+		}
+		return GetMemberResponse.toGetMemberResponse(member);
 	}
 }
