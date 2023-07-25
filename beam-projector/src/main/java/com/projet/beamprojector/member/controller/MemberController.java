@@ -20,7 +20,7 @@ public class MemberController {
 
 	private final MemberService memberService;
 
-	@Operation(summary = "회원정보 조회", description = "JWT를 받고 회원 정보를 반환 합니다.")
+	@Operation(summary = "회원 정보 조회", description = "JWT를 받고 회원 정보를 반환 합니다.")
 	@GetMapping("/")
 	public ResponseEntity<MemberDto.GetMemberResponse> getMember(
 		@TokenMemberId String memberId) {
