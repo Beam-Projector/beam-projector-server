@@ -36,12 +36,12 @@ public class Board {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @NotNull
-    @Column(name = "create_at", nullable = false)
+
+    @Column(name = "create_at")
     private LocalDateTime createAt;
 
-    @NotNull
-    @Column(name = "modified_at", nullable = false)
+
+    @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
     @Size(max = 45)
@@ -59,21 +59,25 @@ public class Board {
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
     private Set<Heart> board = new HashSet<>();
 
-    public static Board toSaveEntity(BoardDTO boardDTO){
+    public static Board toSaveEntity(BoardDTO boardDTO, Member member){
         Board boardEntity = new Board();
+
         boardEntity.setContent(boardDTO.getContent());
-        boardEntity.setMember(boardDTO.getMember());
+        boardEntity.setMember(member);
         boardEntity.setDisclosure(boardDTO.getDisclosure());
         boardEntity.setCategoryName(boardDTO.getCategoryName());
         boardEntity.setTitle(boardDTO.getTitle());
         boardEntity.setBoardHits(0);
+        boardEntity.setCreateAt(LocalDateTime.now());
+        boardEntity.setModifiedAt(LocalDateTime.now());
+
         return boardEntity;
     }
-    public static Board toUpdateEntity(BoardDTO boardDTO){
+    public static Board toUpdateEntity(BoardDTO boardDTO, Member member){
         Board boardEntity = new Board();
         boardEntity.setId(boardDTO.getId());
         boardEntity.setContent(boardDTO.getContent());
-        boardEntity.setMember(boardDTO.getMember());
+        boardEntity.setMember(member);
         boardEntity.setDisclosure(boardDTO.getDisclosure());
         boardEntity.setCategoryName(boardDTO.getCategoryName());
         boardEntity.setTitle(boardDTO.getTitle());

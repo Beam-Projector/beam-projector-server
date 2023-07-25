@@ -14,20 +14,30 @@ import java.time.LocalDateTime;
 @AllArgsConstructor // 모든 필드를 매게변수로 하는 생성자
 public class BoardDTO {
     private Long id;
-    private Member member;
+    private String memberId;
     private String title;
     private String content;
     private int boardHits;
     private LocalDateTime createAt;
-    private LocalDateTime modifiedAt;
+    private String modifiedAt;
     private Long categoryName;
     private String disclosure;
+
+    public BoardDTO(Long id,  String title, int boardHits, LocalDateTime createAt) {
+        this.id = id;
+
+        this.title = title;
+        this.boardHits = boardHits;
+        this.createAt = createAt;
+    }
+
+
 
     public static BoardDTO toBoardDTO(Board board) {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(boardDTO.getId());
         boardDTO.setTitle(boardDTO.getTitle());
-        boardDTO.setMember(boardDTO.getMember());
+        boardDTO.setMemberId(boardDTO.getMemberId());
         boardDTO.setContent(boardDTO.getContent());
         boardDTO.setCategoryName(board.getCategoryName());
         boardDTO.setDisclosure(board.getDisclosure());
