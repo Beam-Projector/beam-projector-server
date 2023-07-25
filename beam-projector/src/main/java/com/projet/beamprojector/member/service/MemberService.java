@@ -57,9 +57,9 @@ public class MemberService {
 			throw new MemberException(MemberErrorCode.PASSWORD_MISMATCH);
 		}
 
-		log.info("member Name : {}", member.getName());
+		log.info("login member Name : {}", member.getName());
 
 		return JwtUtil.createToken(
-			member.getName(), key, ACCESS_TOKEN_EXPIRE_TIME);
+			member.getMemberId(), key, ACCESS_TOKEN_EXPIRE_TIME);
 	}
 }
