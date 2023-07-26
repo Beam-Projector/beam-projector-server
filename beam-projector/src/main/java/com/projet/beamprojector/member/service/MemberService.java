@@ -96,6 +96,11 @@ public class MemberService {
 		return MemberResponse.toMemberResponse(member);
 	}
 
+	public void deleteMember(String memberId) {
+		Member member = isValidatedMemberID(memberId);
+		memberRepository.delete(member);
+	}
+
 	private Member isValidatedMemberID(String memberId) {
 
 		Member member = memberRepository.findByMemberId(memberId);

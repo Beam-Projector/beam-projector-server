@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,15 @@ public class MemberController {
 		log.info("회원 정보 수정 memberId => {}", memberId);
 
 		return ResponseEntity.ok(memberService.modifyMember(request, memberId));
+	}
+
+	@Operation(summary = "회원 정보 삭제", description = "JWT를 받고 회원 탈퇴를 합니다.")
+	@DeleteMapping("/")
+	public ResponseEntity<?> deleteMember(
+		@TokenMemberId String memberId) {
+		log.info("회원 탈퇴 memberId => {}", memberId);
+		memberService.deleteMember(memberId);
+		return ResponseEntity.ok(memberId + " 님의 회원 탈퇴가 완료되었습니다!.");
 	}
 
 
