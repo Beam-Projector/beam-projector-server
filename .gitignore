@@ -246,3 +246,4 @@ gradle-app.setting
 # 추가
 .idea
 beam-projector/build/tmp/compileJava/previous-compilation-data.bin
+beam-projector/src/main/resources/mysql.yml
