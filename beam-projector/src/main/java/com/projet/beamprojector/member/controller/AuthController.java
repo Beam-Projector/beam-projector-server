@@ -26,7 +26,7 @@ public class AuthController {
 		log.info("signup request => {}", request);
 		Member member = memberService.registerMember(request);
 		return ResponseEntity.ok(member.getMemberId()
-			+ "님의 회원가입이 완료 되었습니다! 로그인 후 서비스를 사용하실 수 있습니다.");
+			+ "님의 회원가입이 완료되었습니다! 로그인 후 서비스를 사용하실 수 있습니다.");
 	}
 
 	@Operation(summary = "로그인", description = "아이디와 비밀번호를 입력받아 JWT를 반환 합니다.")
