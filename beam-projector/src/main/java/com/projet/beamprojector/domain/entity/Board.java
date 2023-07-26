@@ -1,5 +1,6 @@
 package com.projet.beamprojector.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,11 +38,13 @@ public class Board {
 
     @NotNull
     @Column(name = "create_at", nullable = false)
-    private LocalDate createAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createAt;
 
     @NotNull
     @Column(name = "modified_at", nullable = false)
-    private LocalDate modifiedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime modifiedAt;
 
     @Size(max = 45)
     @NotNull
