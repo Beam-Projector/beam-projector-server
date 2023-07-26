@@ -67,8 +67,8 @@ private final BoardRepository boardRepository;
     }
 
 
-    public void delete(Long id) {
-        boardRepository.deleteById(id);
+    public void delete(Long boardNum) {
+        boardRepository.deleteById(boardNum);
     }
 
     public Page<BoardDTO> paging(Pageable pageable) {
