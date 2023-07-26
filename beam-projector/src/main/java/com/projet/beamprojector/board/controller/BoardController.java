@@ -6,13 +6,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.yaml.snakeyaml.events.Event;
 
+import javax.validation.Valid;
 import java.util.List;
 @Slf4j
 @RestController
@@ -32,41 +35,39 @@ public class BoardController {
     }
 
     @GetMapping("/")
-    public  String findAll(Model model) {
-        List<BoardDTO> boardDTOList = boardService.findAll();
-        model.addAttribute("boardList", boardDTOList);
-        return "list";
+    public  ResponseEntity<?> findAll(@Valid @RequestParam Long boardNum) {
+        boardService.delete(boardNum);
+        //List<BoardDTO> boardDTOList = boardService.findAll();
+        //model.addAttribute("boardList", boardDTOList);
+        return ResponseEntity.ok( "조회");
 
 
     }
 
-    @GetMapping("/{id}")
-    public String findById(@PathVariable Long id, Model model) {
-        boardService.updateHits(id);
-        BoardDTO boardDTO = boardService.findById(id);
-        model.addAttribute("board", boardDTO);
-        return "detail";
-    }
+//    @GetMapping("/{id}")
+//    public String findById(@PathVariable Long id, Model model) {
+//        boardService.updateHits(id);
+//        BoardDTO boardDTO = boardService.findById(id);
+//        model.addAttribute("board", boardDTO);
+//        return "detail";
+   // }
 
-    @GetMapping("/update/{id}")
-    public String updateForm(@PathVariable Long id, Model model) {
-        BoardDTO boardDTO = boardService.findById(id);
-        model.addAttribute("boardUpdate", boardDTO);
+    @GetMapping ("/update")
+    public String updateForm() {
         return "update";
 
     }
+    @PutMapping ("/update")
+    public ResponseEntity<?> update(@Validated @RequestBody BoardDTO boardDTO) {
 
-    @PostMapping("/update")
-    public String update(@ModelAttribute BoardDTO boardDTO, Model model) {
-        BoardDTO board = boardService.update(boardDTO);
-        model.addAttribute("board", board);
-        return "detail";
+        boardService.update(boardDTO);
+        return ResponseEntity.ok( "게시글이 수정되었습니다 ");
 
     }
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        boardService.delete(id);
-        return "redirect:/board/";
+    @DeleteMapping ("/delete")
+    public ResponseEntity<?> delete(@Valid @RequestParam Long boardNum) {
+        boardService.delete(boardNum);
+        return ResponseEntity.ok( "게시글이 삭제되었습니다 ");
     }
 
     @GetMapping("/paging")
