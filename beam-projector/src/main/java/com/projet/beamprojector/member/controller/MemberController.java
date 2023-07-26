@@ -42,11 +42,11 @@ public class MemberController {
 		return ResponseEntity.ok(memberService.modifyMember(request, memberId));
 	}
 
-	@Operation(summary = "회원 정보 수정", description = "JWT를 받고 회원 정보를 수정하고 수정된 회원 정보를 반환 합니다.")
+	@Operation(summary = "회원 정보 삭제", description = "JWT를 받고 회원 탈퇴를 합니다.")
 	@DeleteMapping("/")
 	public ResponseEntity<?> deleteMember(
 		@TokenMemberId String memberId) {
-		log.info("회원 정보 수정 memberId => {}", memberId);
+		log.info("회원 탈퇴 memberId => {}", memberId);
 		memberService.deleteMember(memberId);
 		return ResponseEntity.ok(memberId + " 님의 회원 탈퇴가 완료되었습니다!.");
 	}
