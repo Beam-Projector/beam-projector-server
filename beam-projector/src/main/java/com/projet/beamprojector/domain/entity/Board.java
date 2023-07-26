@@ -1,6 +1,9 @@
 package com.projet.beamprojector.domain.entity;
 
+
 import com.projet.beamprojector.board.DTO.BoardDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,11 +40,14 @@ public class Board {
     private String content;
 
 
-    @Column(name = "create_at")
+    @NotNull
+    @Column(name = "create_at", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createAt;
 
-
-    @Column(name = "modified_at")
+    @NotNull
+    @Column(name = "modified_at", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
 
     @Size(max = 45)
