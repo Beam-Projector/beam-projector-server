@@ -7,7 +7,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -38,8 +37,6 @@ public class Comment {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createAt;
 
-    // 수정시간의 경우 사용자에게 보이지는 않고 DB에만 남아있도록 하는것이 좋을거 같아요
-    // 디스코드처럼 수정된 경우 (수정됨) 이라고 보이던지요!
     @Column(name = "modified_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;

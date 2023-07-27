@@ -1,8 +1,8 @@
 package com.projet.beamprojector.comment.controller;
 
 
-import com.projet.beamprojector.comment.exception.CommentException;
 import com.projet.beamprojector.comment.service.CommentService;
+import com.projet.beamprojector.config.Security.TokenMemberId;
 import com.projet.beamprojector.domain.entity.Comment;
 import com.projet.beamprojector.dto.comment.CommentDto;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -23,8 +24,9 @@ public class CommentController {
 
     @PostMapping("/")
     public ResponseEntity<?> createComment(
-            @Validated @RequestBody CommentDto.CreateCommentRequest createCommentRequest){
-        Comment comment = commentService.createComment(createCommentRequest);
+            @TokenMemberId String memberId,
+            @Validated @RequestBody CommentDto.CreateCommentRequest createCommentRequest) {
+        Comment comment = commentService.createComment(createCommentRequest, memberId);
         return ResponseEntity.ok("댓글등록 완료");
 
         // 추후 exceptionHandler 구현되면 그 때 다시 처리 필요.
@@ -39,27 +41,24 @@ public class CommentController {
     }
 
     @GetMapping("/")
-    public List<CommentDto.CommentResponse> getComment(@Valid @RequestParam Long boardNum){
+    public List<CommentDto.CommentResponse> getComment(@Valid @RequestParam Long boardNum) {
         log.info("조회한다!!!!");
         return commentService.getComment(boardNum);
     }
 
     @PutMapping("/")
-    public CommentDto.CommentResponse updateComment(@Validated @RequestBody CommentDto.UpdateCommentRequest updateCommentRequest) {
+    public CommentDto.CommentResponse updateComment(
+            @TokenMemberId String memberId,
+            @Validated @RequestBody CommentDto.UpdateCommentRequest updateCommentRequest) {
         log.info("수정 컨트롤러 진입 >>>>>>");
 
-        return commentService.updateComment(updateCommentRequest);
+        return commentService.updateComment(memberId, updateCommentRequest);
     }
-//    public Comment updateComment(@Validated @RequestBody
-//                                     CommentDto.UpdateCommentRequest updateCommentRequest) {
-//        log.info("수정 컨트롤러 진입 >>>>>>");
-//        return commentService.updateComment(updateCommentRequest);
-//    }
 
     @DeleteMapping("/")
-    public void deleteComment(@Valid @RequestParam Long commentNum) {
+    public void deleteComment(@Valid @RequestParam Long commentNum, @TokenMemberId String memberId) {
         log.info("삭제 컨트롤러 들어왔다!!! 들어왔다");
-        commentService.deleteComment(commentNum);
+        commentService.deleteComment(commentNum, memberId);
     }
 
 }
