@@ -55,7 +55,7 @@ public class MemberService {
 		log.info("login member Name : {}", member.getName());
 
 		return JwtUtil.createToken(
-			member.getMemberId(), key, ACCESS_TOKEN_EXPIRE_TIME);
+			member, key, ACCESS_TOKEN_EXPIRE_TIME);
 	}
 
 	public MemberResponse getMember(String memberId) {
@@ -78,7 +78,7 @@ public class MemberService {
 		String newNickName = request.getNickName();
 		if (isNickNameModified(member, newNickName)
 			&& isValidatedNickName(request.getEmail())) {
-			member.setEmail(request.getEmail());
+			member.setNickName(request.getNickName());
 		}
 
 		String newName = request.getName();
@@ -86,7 +86,7 @@ public class MemberService {
 			member.setName(request.getName());
 		}
 
-		String newProfileImageUrl = request.getEmail();
+		String newProfileImageUrl = request.getProfileImageUrl();
 		if (isProfileImageUrlModified(member, newProfileImageUrl)) {
 			member.setProfileImageUrl(request.getProfileImageUrl());
 		}
