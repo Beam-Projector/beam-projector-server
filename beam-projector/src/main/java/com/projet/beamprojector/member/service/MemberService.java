@@ -55,7 +55,7 @@ public class MemberService {
 		log.info("login member Name : {}", member.getName());
 
 		return JwtUtil.createToken(
-			member.getMemberId(), key, ACCESS_TOKEN_EXPIRE_TIME);
+			member, key, ACCESS_TOKEN_EXPIRE_TIME);
 	}
 
 	public MemberResponse getMember(String memberId) {

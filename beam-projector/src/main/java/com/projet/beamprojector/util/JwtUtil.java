@@ -1,5 +1,6 @@
 package com.projet.beamprojector.util;
 
+import com.projet.beamprojector.domain.entity.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,7 +12,7 @@ public class JwtUtil {
 
 	public static String getUserName(String token, String secretKey) {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-			.getBody().get("userName", String.class);
+			.getBody().get("memberId", String.class);
 	}
 
 	public static boolean isExpired(String token, String secretKey) {
@@ -20,12 +21,16 @@ public class JwtUtil {
 			.getExpiration().before(new Date());
 	}
 
-	public static String createToken(String userName, String key,
+	public static String createToken(Member member, String key,
 		long expireTimeMs) {
 		Claims claims = Jwts.claims();
-		claims.put("userName", userName);
+		claims.put("memberId", member.getMemberId());
+		claims.put("email", member.getMember());
+		claims.put("name", member.getName());
+		claims.put("nickName", member.getNickName());
+		claims.put("profileUrl", member.getProfileImageUrl());
 
-		log.info("JwtUtil userName : {}", userName);
+		log.info("JwtUtil userName : {}", member.getMemberId());
 
 		return Jwts.builder()
 			.setClaims(claims)
