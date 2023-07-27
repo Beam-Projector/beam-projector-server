@@ -1,7 +1,7 @@
 package com.projet.beamprojector.domain.entity;
 
 
-import com.projet.beamprojector.board.DTO.BoardDTO;
+import com.projet.beamprojector.dto.board.BoardDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
@@ -10,7 +10,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,7 +44,7 @@ public class Board {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createAt;
 
-    @NotNull
+
     @Column(name = "modified_at", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
@@ -65,30 +64,30 @@ public class Board {
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
     private Set<Heart> board = new HashSet<>();
 
-    public static Board toSaveEntity(BoardDTO boardDTO, Member member){
+    public static Board toSaveEntity(BoardDTO.CreateBoardRequest request, Member member){
         Board boardEntity = new Board();
 
-        boardEntity.setContent(boardDTO.getContent());
+        boardEntity.setContent(request.getContent());
         boardEntity.setMember(member);
-        boardEntity.setDisclosure(boardDTO.getDisclosure());
-        boardEntity.setCategoryName(boardDTO.getCategoryName());
-        boardEntity.setTitle(boardDTO.getTitle());
+        boardEntity.setDisclosure(request.getDisclosure());
+        boardEntity.setCategoryName(request.getCategoryName());
+        boardEntity.setTitle(request.getTitle());
         boardEntity.setBoardHits(0);
         boardEntity.setCreateAt(LocalDateTime.now());
         boardEntity.setModifiedAt(LocalDateTime.now());
 
         return boardEntity;
     }
-    public static Board toUpdateEntity(BoardDTO boardDTO, Member member){
-        Board boardEntity = new Board();
-        boardEntity.setId(boardDTO.getId());
-        boardEntity.setContent(boardDTO.getContent());
-        boardEntity.setMember(member);
-        boardEntity.setDisclosure(boardDTO.getDisclosure());
-        boardEntity.setCategoryName(boardDTO.getCategoryName());
-        boardEntity.setTitle(boardDTO.getTitle());
-        boardEntity.setBoardHits(boardDTO.getBoardHits());
-        return boardEntity;
-    }
+//    public static Board toUpdateEntity(BoardDTO boardDTO, Member member){
+//        Board boardEntity = new Board();
+//        boardEntity.setId(boardDTO.getId());
+//        boardEntity.setContent(boardDTO.getContent());
+//        boardEntity.setMember(member);
+//        boardEntity.setDisclosure(boardDTO.getDisclosure());
+//        boardEntity.setCategoryName(boardDTO.getCategoryName());
+//        boardEntity.setTitle(boardDTO.getTitle());
+//        boardEntity.setBoardHits(boardDTO.getBoardHits());
+//        return boardEntity;
+//    }
 
 }
