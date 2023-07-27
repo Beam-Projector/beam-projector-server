@@ -25,7 +25,7 @@ public class JwtUtil {
 		long expireTimeMs) {
 		Claims claims = Jwts.claims();
 		claims.put("memberId", member.getMemberId());
-		claims.put("email", member.getMember());
+		claims.put("email", member.getEmail());
 		claims.put("name", member.getName());
 		claims.put("nickName", member.getNickName());
 		claims.put("profileUrl", member.getProfileImageUrl());
