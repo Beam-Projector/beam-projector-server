@@ -2,6 +2,7 @@ package com.projet.beamprojector.board.controller;
 
 import com.projet.beamprojector.board.DTO.BoardDTO;
 import com.projet.beamprojector.board.service.BoardService;
+import com.projet.beamprojector.config.Security.TokenMemberId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,16 +28,16 @@ public class BoardController {
     @GetMapping("/save")
     public String saveForm() {return "save";}
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody BoardDTO boardDTO){
+    public ResponseEntity<?> save(@RequestBody BoardDTO boardDTO, @TokenMemberId String memberId){
         log.info("request => {}", boardDTO.getTitle());
-        boardService.save(boardDTO);
+        boardService.save(boardDTO, memberId);
         return ResponseEntity.ok(200);
 
     }
 
     @GetMapping("/")
     public  ResponseEntity<?> findAll(@Valid @RequestParam Long boardNum) {
-        boardService.delete(boardNum);
+        boardService.findAll(boardNum);
         //List<BoardDTO> boardDTOList = boardService.findAll();
         //model.addAttribute("boardList", boardDTOList);
         return ResponseEntity.ok( "조회");
@@ -58,15 +59,15 @@ public class BoardController {
 
     }
     @PutMapping ("/update")
-    public ResponseEntity<?> update(@Validated @RequestBody BoardDTO boardDTO) {
+    public ResponseEntity<?> update(@Validated @RequestBody BoardDTO boardDTO, @TokenMemberId String memberId) {
 
-        boardService.update(boardDTO);
+        boardService.update(boardDTO ,memberId);
         return ResponseEntity.ok( "게시글이 수정되었습니다 ");
 
     }
     @DeleteMapping ("/delete")
-    public ResponseEntity<?> delete(@Valid @RequestParam Long boardNum) {
-        boardService.delete(boardNum);
+    public ResponseEntity<?> delete(@Valid @RequestParam Long boardNum, @TokenMemberId String memberId) {
+        boardService.delete(boardNum, memberId);
         return ResponseEntity.ok( "게시글이 삭제되었습니다 ");
     }
 

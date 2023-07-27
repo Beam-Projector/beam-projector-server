@@ -19,20 +19,21 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+
 public class BoardService {
 
 private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
                  //글쓰기
-    public void save(BoardDTO boardDTO) {
-        Member member = memberRepository.findByMemberId("tjwndnjs1998");
+    public void save(BoardDTO boardDTO, String memberId) {
+        Member member = memberRepository.findByMemberId(memberId);
         Board boardEntity = Board.toSaveEntity(boardDTO, member);
         boardRepository.save(boardEntity);
 
     }
               // 글목록
-    public List<BoardDTO> findAll() {
+    public List<BoardDTO> findAll(Long boardNum) {
         List<Board> boardEntityList = boardRepository.findAll();
         List<BoardDTO> boardDTOList = new ArrayList<>();
         for(Board board: boardEntityList) {
@@ -41,8 +42,8 @@ private final BoardRepository boardRepository;
         return boardDTOList;
     }
     @Transactional
-    public void updateHits(Long id) {
-        boardRepository.updateHits(id);
+    public void updateHits(Long boardNum) {
+        boardRepository.updateHits(boardNum);
 
     }
 
@@ -57,8 +58,8 @@ private final BoardRepository boardRepository;
         }
     }
 
-    public BoardDTO update(BoardDTO boardDTO) {
-        Member member = memberRepository.findByMemberId("1");
+    public BoardDTO update(BoardDTO boardDTO, String memberId) {
+        Member member = memberRepository.findByMemberId(memberId);
         Board boardEntity = Board.toUpdateEntity(boardDTO, member);
         boardRepository.save(boardEntity);
         return findById(boardDTO.getId());
@@ -67,7 +68,8 @@ private final BoardRepository boardRepository;
     }
 
 
-    public void delete(Long boardNum) {
+    public void delete(Long boardNum,String memberId) {
+        Member member = memberRepository.findByMemberId(memberId);
         boardRepository.deleteById(boardNum);
     }
 
