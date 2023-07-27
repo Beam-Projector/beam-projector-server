@@ -1,23 +1,20 @@
 package com.projet.beamprojector.board.controller;
 
-import com.projet.beamprojector.board.DTO.BoardDTO;
+import com.projet.beamprojector.dto.board.BoardDTO;
 import com.projet.beamprojector.board.service.BoardService;
 import com.projet.beamprojector.config.Security.TokenMemberId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.events.Event;
 
 import javax.validation.Valid;
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -28,30 +25,29 @@ public class BoardController {
     @GetMapping("/save")
     public String saveForm() {return "save";}
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody BoardDTO boardDTO, @TokenMemberId String memberId){
-        log.info("request => {}", boardDTO.getTitle());
-        boardService.save(boardDTO, memberId);
-        return ResponseEntity.ok(200);
+    public ResponseEntity<?> save(@RequestBody BoardDTO.CreateBoardRequest request, @TokenMemberId String memberId){
+        log.info("request => {}", request.getTitle());
+        boardService.save(request, memberId);
+        return ResponseEntity.ok("생성");
 
     }
 
     @GetMapping("/")
-    public  ResponseEntity<?> findAll(@Valid @RequestParam Long boardNum) {
-        boardService.findAll(boardNum);
+    public  ResponseEntity<List<BoardDTO.BoardResponse>> findAll(@Valid @RequestParam Long boardNum) {
         //List<BoardDTO> boardDTOList = boardService.findAll();
         //model.addAttribute("boardList", boardDTOList);
-        return ResponseEntity.ok( "조회");
+        return ResponseEntity.ok(boardService.findAll(boardNum));
+
 
 
     }
 
-//    @GetMapping("/{id}")
-//    public String findById(@PathVariable Long id, Model model) {
-//        boardService.updateHits(id);
-//        BoardDTO boardDTO = boardService.findById(id);
-//        model.addAttribute("board", boardDTO);
-//        return "detail";
-   // }
+    @GetMapping("/search")
+    public ResponseEntity<BoardDTO.BoardResponse> findById(@Valid @RequestParam Long boardNum) {
+        boardService.updateHits(boardNum);
+       //model.addAttribute("board", boardDTO);
+        return ResponseEntity.ok( boardService.findById(boardNum));
+    }
 
     @GetMapping ("/update")
     public String updateForm() {
@@ -59,10 +55,10 @@ public class BoardController {
 
     }
     @PutMapping ("/update")
-    public ResponseEntity<?> update(@Validated @RequestBody BoardDTO boardDTO, @TokenMemberId String memberId) {
+    public ResponseEntity<BoardDTO.BoardResponse> update(@RequestBody BoardDTO.UpdateBoardRequest request, @TokenMemberId String memberId) {
 
-        boardService.update(boardDTO ,memberId);
-        return ResponseEntity.ok( "게시글이 수정되었습니다 ");
+
+        return ResponseEntity.ok( boardService.update(request ,memberId));
 
     }
     @DeleteMapping ("/delete")
@@ -71,19 +67,19 @@ public class BoardController {
         return ResponseEntity.ok( "게시글이 삭제되었습니다 ");
     }
 
-    @GetMapping("/paging")
-    public String paging(@PageableDefault(page = 1)Pageable pageable, Model model) {
-        pageable.getPageNumber();
-        Page<BoardDTO> boardList = boardService.paging(pageable);
-        int blockLimit = 3;
-        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) -1) * blockLimit +1;
-        int endPage = ((startPage + blockLimit -1) < boardList.getTotalPages()) ? startPage + blockLimit -1 : boardList.getTotalPages();
-        model.addAttribute("boardList", boardList);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        return "paging";
-
-    }
+//    @GetMapping("/paging")
+//    public String paging(@PageableDefault(page = 1)Pageable pageable, Model model) {
+//        pageable.getPageNumber();
+//        Page<BoardDTO> boardList = boardService.paging(pageable);
+//        int blockLimit = 3;
+//        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) -1) * blockLimit +1;
+//        int endPage = ((startPage + blockLimit -1) < boardList.getTotalPages()) ? startPage + blockLimit -1 : boardList.getTotalPages();
+//        model.addAttribute("boardList", boardList);
+//        model.addAttribute("startPage", startPage);
+//        model.addAttribute("endPage", endPage);
+//        return "paging";
+//
+//    }
 
 
 }
