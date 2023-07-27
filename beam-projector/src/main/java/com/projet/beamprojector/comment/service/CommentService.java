@@ -88,12 +88,10 @@ public class CommentService {
 
         String writer = comment.getMember().getMemberId();
 
-        commentRepository.deleteById(commentNum);
-
         if (!writer.equals(memberId)) {
             throw new CommentException(CommentErrorCode.COMMENT_DELETE_FAILED);
-        } else {
-            throw new CommentException(CommentErrorCode.COMMENT_DELETE_SUCCESS);
         }
+
+        commentRepository.deleteById(commentNum);
     }
 }
