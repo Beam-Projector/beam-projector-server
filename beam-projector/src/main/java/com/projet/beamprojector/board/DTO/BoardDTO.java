@@ -12,9 +12,10 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor// 기본생성자
 @AllArgsConstructor // 모든 필드를 매게변수로 하는 생성자
+
 public class BoardDTO {
     private Long id;
-    private String memberId;
+//    private String memberId;
     private String title;
     private String content;
     private int boardHits;
@@ -37,7 +38,7 @@ public class BoardDTO {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(boardDTO.getId());
         boardDTO.setTitle(boardDTO.getTitle());
-        boardDTO.setMemberId(boardDTO.getMemberId());
+//        boardDTO.setMemberId(boardDTO.getMemberId());
         boardDTO.setContent(boardDTO.getContent());
         boardDTO.setCategoryName(board.getCategoryName());
         boardDTO.setDisclosure(board.getDisclosure());
