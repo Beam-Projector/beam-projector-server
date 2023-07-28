@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.Console;
 import java.util.List;
 
 @Slf4j
@@ -26,8 +27,8 @@ public class CommentController {
     public ResponseEntity<?> createComment(
             @TokenMemberId String memberId,
             @Validated @RequestBody CommentDto.CreateCommentRequest createCommentRequest) {
-        Comment comment = commentService.createComment(createCommentRequest, memberId);
-        return ResponseEntity.ok("댓글등록 완료");
+
+        return ResponseEntity.ok(commentService.createComment(createCommentRequest, memberId));
 
         // 추후 exceptionHandler 구현되면 그 때 다시 처리 필요.
 /*

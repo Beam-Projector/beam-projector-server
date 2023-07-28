@@ -27,7 +27,7 @@ public class CommentService {
     private final BoardRepository boardRepository;
 
     // 생성
-    public Comment createComment(CommentDto.CreateCommentRequest createCommentRequest, String memberId) {
+    public CommentDto.CommentResponse createComment(CommentDto.CreateCommentRequest createCommentRequest, String memberId) {
         log.info("서비스 진입성공!!!");
 
         Member member = memberRepository.findByMemberId(memberId);
@@ -45,7 +45,8 @@ public class CommentService {
         comment.setCreateAt(createTime);
         comment.setMember(member);
 
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
+        return CommentDto.CommentResponse.toResponse(comment);
     }
 
     // 조회
@@ -73,9 +74,7 @@ public class CommentService {
         LocalDateTime modifiedTime = LocalDateTime.now();
         comment.setComments(updateCommentRequest.getComments());
         comment.setModifiedAt(modifiedTime);
-
         commentRepository.save(comment);
-
         log.info("수정 완료");
         return CommentDto.CommentResponse.toResponse(comment);
     }
