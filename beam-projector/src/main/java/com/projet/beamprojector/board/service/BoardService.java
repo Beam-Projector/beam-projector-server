@@ -35,8 +35,8 @@ public class BoardService {
     }
 
     // 카테고리 전체페이지 조회
-    public List<BoardDto.BoardResponse> findAll(Long categoryName) {
-        List<Board> boardList = boardRepository.findByCategoryName(categoryName);
+    public List<BoardDto.BoardResponse> boardAllRead() {
+        List<Board> boardList = boardRepository.findAll();
         return BoardDto.BoardResponse.toResponse(boardList);
     }
 
@@ -56,7 +56,7 @@ public class BoardService {
 //    }
 
     // 수정
-    public BoardDto.BoardResponse update(Long boardNum, BoardDto.UpdateBoardRequest request, String memberId) {
+    public BoardDto.BoardResponse update(BoardDto.UpdateBoardRequest request, String memberId) {
         Member writer = memberRepository.findByMemberId(memberId);
         Board board = boardRepository.findById(request.getBoardNum())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.DUPLICATED_MEMBER_ID));
@@ -67,7 +67,6 @@ public class BoardService {
 
         board.setTitle(request.getTitle());
         board.setContent(request.getContent());
-        board.setCategoryName(request.getCategoryName());
         board.setModifiedAt(LocalDateTime.now());
 
         boardRepository.save(board);

@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/boards")
 public class BoardController {
     private final BoardService boardService;
 
@@ -26,11 +26,10 @@ public class BoardController {
         return ResponseEntity.ok(boardService.save(request, memberId));
     }
 
-    @GetMapping("/list/{categoryName}")
-    public ResponseEntity<List<BoardDto.BoardResponse>> findAllByCategory(
-            @Valid @PathVariable("categoryName") Long categoryName) {
+    @GetMapping("/")
+    public ResponseEntity<List<BoardDto.BoardResponse>> boards() {
 
-        return ResponseEntity.ok(boardService.findAll(categoryName));
+        return ResponseEntity.ok(boardService.boardAllRead());
     }
 
     // 상세페이지 조회
@@ -42,13 +41,12 @@ public class BoardController {
         return ResponseEntity.ok(boardService.findById(boardNum));
     }
 
-    @PutMapping("/{boardNum}")
+    @PutMapping("/")
     public ResponseEntity<BoardDto.BoardResponse> update(
-            @PathVariable("boardNum") Long boardNum,
             @RequestBody BoardDto.UpdateBoardRequest request,
             @TokenMemberId String memberId) {
 
-        return ResponseEntity.ok(boardService.update(boardNum, request, memberId));
+        return ResponseEntity.ok(boardService.update(request, memberId));
 
     }
 

@@ -48,15 +48,6 @@ public class Board {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
 
-    @Size(max = 45)
-    @NotNull
-    @Column(name = "disclosure", nullable = false, length = 45)
-    private String disclosure;
-
-    @NotNull
-    @Column(name = "category_name", nullable = false)
-    private Long categoryName;
-
     @Column(name = "board_hits", columnDefinition = "BIGINT DEFAULT 0")
     private Long boardHits;
 
@@ -65,11 +56,8 @@ public class Board {
 
     public static Board toSaveEntity(BoardDto.CreateBoardRequest request, Member member) {
         Board boardEntity = new Board();
-
         boardEntity.setContent(request.getContent());
         boardEntity.setMember(member);
-        boardEntity.setDisclosure(request.getDisclosure());
-        boardEntity.setCategoryName(request.getCategoryName());
         boardEntity.setTitle(request.getTitle());
         boardEntity.setBoardHits(0L);
         boardEntity.setCreateAt(LocalDateTime.now());
