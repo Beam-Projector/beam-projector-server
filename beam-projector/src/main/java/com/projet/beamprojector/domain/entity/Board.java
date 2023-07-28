@@ -1,9 +1,8 @@
 package com.projet.beamprojector.domain.entity;
 
 
-import com.projet.beamprojector.dto.board.BoardDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import com.projet.beamprojector.dto.board.BoardDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,7 +44,7 @@ public class Board {
     private LocalDateTime createAt;
 
 
-    @Column(name = "modified_at", nullable = false)
+    @Column(name = "modified_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
 
@@ -58,13 +57,13 @@ public class Board {
     @Column(name = "category_name", nullable = false)
     private Long categoryName;
 
-    @Column
-    private int boardHits;
+    @Column(name = "board_hits", columnDefinition = "BIGINT DEFAULT 0")
+    private Long boardHits;
 
-    @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private Set<Heart> board = new HashSet<>();
 
-    public static Board toSaveEntity(BoardDTO.CreateBoardRequest request, Member member){
+    public static Board toSaveEntity(BoardDto.CreateBoardRequest request, Member member) {
         Board boardEntity = new Board();
 
         boardEntity.setContent(request.getContent());
@@ -72,22 +71,11 @@ public class Board {
         boardEntity.setDisclosure(request.getDisclosure());
         boardEntity.setCategoryName(request.getCategoryName());
         boardEntity.setTitle(request.getTitle());
-        boardEntity.setBoardHits(0);
+        boardEntity.setBoardHits(0L);
         boardEntity.setCreateAt(LocalDateTime.now());
         boardEntity.setModifiedAt(LocalDateTime.now());
 
         return boardEntity;
     }
-//    public static Board toUpdateEntity(BoardDTO boardDTO, Member member){
-//        Board boardEntity = new Board();
-//        boardEntity.setId(boardDTO.getId());
-//        boardEntity.setContent(boardDTO.getContent());
-//        boardEntity.setMember(member);
-//        boardEntity.setDisclosure(boardDTO.getDisclosure());
-//        boardEntity.setCategoryName(boardDTO.getCategoryName());
-//        boardEntity.setTitle(boardDTO.getTitle());
-//        boardEntity.setBoardHits(boardDTO.getBoardHits());
-//        return boardEntity;
-//    }
 
 }
