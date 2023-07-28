@@ -46,17 +46,16 @@ public class MemberService {
 
 	public String login(LoginRequest request) {
 
-		Member member = isValidatedMemberID(request.getMemberId());
-		if (!passwordEncoder.matches(request.getPassword(),
-			member.getPassword())) {
-			throw new MemberException(MemberErrorCode.PASSWORD_MISMATCH);
-		}
+		Member loginMember = isValidatedMemberID(request.getMemberId());
+		String inputPassword = request.getPassword();
+		isValidatedMemberPassword(inputPassword, loginMember);
 
-		log.info("login member Name : {}", member.getName());
+		log.info("loginMember Name : {}", loginMember.getName());
 
 		return JwtUtil.createToken(
-			member, key, ACCESS_TOKEN_EXPIRE_TIME);
+			loginMember, key, ACCESS_TOKEN_EXPIRE_TIME);
 	}
+
 
 	public MemberResponse getMember(String memberId) {
 
@@ -110,6 +109,14 @@ public class MemberService {
 		return member;
 	}
 
+	private void isValidatedMemberPassword(String inputPassword,
+		Member member) {
+		if (!passwordEncoder.matches(inputPassword,
+			member.getPassword())) {
+			throw new MemberException(MemberErrorCode.PASSWORD_MISMATCH);
+		}
+	}
+
 	private boolean isValidatedEmail(String email) {
 		if (memberRepository.existsByEmail(email)) {
 			throw new MemberException(
@@ -130,13 +137,16 @@ public class MemberService {
 		return !Objects.equals(member.getEmail(), request);
 	}
 
+
 	private boolean isNickNameModified(Member member, String request) {
 		return !Objects.equals(member.getNickName(), request);
 	}
 
+
 	private boolean isNameModified(Member member, String request) {
 		return !Objects.equals(member.getName(), request);
 	}
+
 
 	private boolean isProfileImageUrlModified(Member member, String request) {
 		return !Objects.equals(member.getName(), request);
