@@ -25,11 +25,6 @@ public class BoardDto {
         @Schema(description = "내용 입력란")
         private String content;
 
-        @Schema(description = "공개범위")
-        private String disclosure;
-
-        @Schema(description = "카테고리 분류번호")
-        private Long categoryName;
     }
 
     @ToString
@@ -50,11 +45,6 @@ public class BoardDto {
         @Schema(description = "내용 입력란")
         private String content;
 
-        @Schema(description = "공개범위")
-        private String disclosure;
-
-        @Schema(description = "카테고리 분류번호")
-        private Long categoryName;
 
     }
 
@@ -74,14 +64,9 @@ public class BoardDto {
         @NotBlank(message = "내용을 입력해 주세요.")
         @Schema(description = "내용 입력란")
         private String content;
-        @Schema(description = "공개범위")
-        private String disclosure;
-
         @Schema(description = "게시글 조회수")
         private Long boardHits;
 
-        @Schema(description = "카테고리 분류번호")
-        private Long categoryName;
 
         @Schema(description = "작성시간")
         private LocalDateTime createAt;
@@ -95,8 +80,6 @@ public class BoardDto {
                     .createAt(board.getCreateAt())
                     .content(board.getContent())
                     .boardHits(board.getBoardHits())
-                    .categoryName(board.getCategoryName())
-                    .disclosure(board.getDisclosure())
                     .modifiedAt(board.getModifiedAt())
                     .build();
         }
