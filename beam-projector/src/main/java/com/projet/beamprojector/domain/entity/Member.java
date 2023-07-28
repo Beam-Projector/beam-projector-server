@@ -60,8 +60,6 @@ public class Member implements UserDetails {
 	@Column(name = "nick_name", nullable = false, length = 45)
 	private String nickName;
 
-	@Size(max = 45)
-	@Column(name = "profile_image_url", length = 45)
 	private String profileImageUrl;
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
